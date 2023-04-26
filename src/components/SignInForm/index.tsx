@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/Features/authUserSlice";
 
 export function SignInForm() {
   const [username, setUsername] = useState("");
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      dispatch(login(username));
       console.log(username);
     } catch (error) {
       console.log(error)
