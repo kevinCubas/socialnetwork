@@ -1,20 +1,47 @@
-export function Post() {
+interface IPostProps {
+  data: IPost
+}
+
+const SECONDS = 1000;
+const MINUTES = 60 * SECONDS;
+const HOURS = 60 * MINUTES;
+const DAYS = 24 * HOURS;
+const WEEKS = 7 * DAYS;
+
+const getTimeDifference = (createdAt: Date): string => {
+  const now = new Date();
+  const diff = Math.abs(now.getTime() - createdAt.getTime());
+
+  if (diff < MINUTES) {
+    return `${Math.floor(diff / SECONDS)} seconds ago`;
+  } else if (diff < HOURS) {
+    return `${Math.floor(diff / MINUTES)} minutes ago`;
+  } else if (diff < DAYS) {
+    return `${Math.floor(diff / HOURS)} hours ago`;
+  } else if (diff < WEEKS) {
+    return `${Math.floor(diff / DAYS)} days ago`;
+  } else {
+    return createdAt.toLocaleDateString();
+  }
+};
+
+export function Post({ data }: IPostProps) {
+  const { title, content, username, created_datetime } = data
+  const timeDifference = getTimeDifference(new Date(created_datetime))
+
   return (
     <article
-      className="border border-gray-400 rounded-2xl w-full overflow-hidden h-fit">
+      className="border border-gray-400 rounded-2xl min-w-full overflow-hidden h-fit">
       <header className="w-full p-6 bg-blue text-white font-bold text-xl">
-        <h3>Sou o Header</h3>
+        <h3>{title}</h3>
       </header>
       <div className="flex flex-col p-6 gap-4">
         <div className="flex justify-between text-gray-500">
-          <p className="font-bold">@Kevin</p>
-          <span>40 minutes ago</span>
+          <p className="font-bold">@{username}</p>
+          <span>{timeDifference}</span>
         </div>
         <div className="">
-          <p>Curabitur suscipit suscipit tellus. Phasellus consectetuer vestibulum elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas egestas arcu quis ligula mattis placerat. Duis vel nibh at velit scelerisque suscipit.
-
-            Duis lobortis massa imperdiet quam. Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Fusce a quam. Nullam vel sem. Nullam cursus lacinia erat.
-          </p>
+          <p>{content}</p>
         </div>
       </div>
     </article>
