@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { useAddPostMutation } from "../../redux/Features/postsSlice";
+import { useSelector } from "react-redux";
+import { selectAuthUser } from "../../redux/Features/authUserSlice";
 
 export function FeedForm() {
+  const { user } = useSelector(selectAuthUser);
+  const [ addNewPost ] = useAddPostMutation()
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -10,7 +15,7 @@ export function FeedForm() {
     e.preventDefault();
     try {
       if (submitDisabled) throw new Error("Fields are empty");
-      console.log(title, content);
+      await addNewPost({username: user, title, content});
     } catch (error) {
       console.log(error)
     } finally {

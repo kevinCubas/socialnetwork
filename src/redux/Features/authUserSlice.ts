@@ -3,7 +3,7 @@ import { RootState } from "../store";
 
 const initialState: AuthUserState = {
   isLoggedIn: false,
-  username: null,
+  user: null,
 }
 
 export const authUserSlice = createSlice({
@@ -12,11 +12,11 @@ export const authUserSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.isLoggedIn = true;
-      state.username = action.payload;
+      state.user = action.payload;
     },
     logout: (state) => {
       state.isLoggedIn = false;
-      state.username = null;
+      state.user = null;
     },
   },
 });
