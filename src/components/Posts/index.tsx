@@ -3,12 +3,17 @@ import { useGetPostsQuery } from "../../redux/Features/postsSlice";
 import { Post } from "../Post";
 import { DeleteModal } from "../DeleteModal";
 import { createPortal } from "react-dom";
+import { EditModal } from "../EditModal";
+import { selectModalState } from "../../redux/Features/modalSlice";
+import { useSelector } from "react-redux";
 
 export function Posts() {
   const [amount, setAmount] = useState(10);
   const { data, isLoading, error } = useGetPostsQuery(amount, {
     refetchOnMountOrArgChange: true,
   });
+  const { isDeleteOpen, isEditOpen } = useSelector(selectModalState);
+
   const posts = data?.results ?? [];
   const postsCount = data?.count ?? 10;
   const hasMore = postsCount > amount;
@@ -40,7 +45,7 @@ export function Posts() {
   return (
     <>
       <ul className="flex flex-col w-full gap-6">
-        {posts.map((post) => {
+        {posts.map((post: IPost) => {
           return (
             <li key={post.id}>
               <Post data={post} />
@@ -50,8 +55,12 @@ export function Posts() {
         )}
       </ul>
       <div ref={referer}></div>
-      {createPortal(
+      { isDeleteOpen && createPortal(
         <DeleteModal />,
+        document.body
+      )}
+      { isEditOpen && createPortal(
+        <EditModal />,
         document.body
       )}
     </>

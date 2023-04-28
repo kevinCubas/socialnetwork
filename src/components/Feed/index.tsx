@@ -1,4 +1,4 @@
-import { FeedForm } from "../FeedForm";
+import { PostForm } from "../PostForm";
 import { Header } from "../Header";
 import { Posts } from "../Posts";
 export function Feed() {
@@ -12,7 +12,7 @@ export function Feed() {
     >
       <Header />
       <section className="flex flex-col items-center w-full p-6 gap-6">
-        <FeedForm />
+        <PostForm />
         <Posts />
       </section>
     </main>

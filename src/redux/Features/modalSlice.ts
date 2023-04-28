@@ -4,7 +4,8 @@ import { RootState } from "../store";
 const initialState: IModalState = {
   isEditOpen: false,
   isDeleteOpen: false,
-  postId: null
+  postId: null,
+  post: null
 }
 
 export const modalSlice = createSlice({
@@ -13,14 +14,16 @@ export const modalSlice = createSlice({
   reducers: {
     openEditModal: (state, action) => {
       state.isEditOpen = true;
-      state.postId = action.payload
+      state.isDeleteOpen = false;
+      state.post = action.payload
     },
     closeEditModal: (state) => {
       state.isEditOpen = false;
-      state.postId = null
+      state.post = null
     },
     openDeleteModal: (state, action) => {
       state.isDeleteOpen = true;
+      state.isEditOpen = false;
       state.postId = action.payload
     },
     closeDeleteModal: (state) => {
@@ -30,7 +33,11 @@ export const modalSlice = createSlice({
   }
 })
 
-export const { openEditModal, closeEditModal, closeDeleteModal, openDeleteModal } = modalSlice.actions;
+export const { 
+  openEditModal, 
+  closeEditModal, 
+  closeDeleteModal, 
+  openDeleteModal } = modalSlice.actions;
 
-export const selectEditModal = (state: RootState) => state.modal;
+export const selectModalState = (state: RootState) => state.modal;
 export default modalSlice.reducer;

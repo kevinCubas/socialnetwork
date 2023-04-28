@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "../../redux/Features/authUserSlice";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { openDeleteModal } from "../../redux/Features/modalSlice";
+import { openDeleteModal, openEditModal } from "../../redux/Features/modalSlice";
 import { getTimeDifference } from "../../util/getTimeDifference";
 
 interface IPostProps {
@@ -17,6 +17,10 @@ export function Post({ data }: IPostProps) {
     dispatch(openDeleteModal(id))
   }
 
+  const handleOpenEditModal = (post: IPost) => {
+    dispatch(openEditModal(post))
+    console.log("hello")
+  }
   return (
     <>
       <article
@@ -25,8 +29,20 @@ export function Post({ data }: IPostProps) {
           <h3>{title}</h3>
           {user === username && (
             <div className="flex gap-7">
-              <button onClick={() => handleOpenDeleteModal(id)}><FaTrashAlt /></button>
-              <button><FaEdit /></button>
+              <button
+                title="Delete"
+                type="button"
+                aria-label="Delete"
+                onClick={() => handleOpenDeleteModal(id)}>
+                <FaTrashAlt />
+              </button>
+              <button
+                title="Edit"
+                type="button"
+                aria-label="Edit"
+                onClick={() => handleOpenEditModal(data)}>
+                <FaEdit />
+              </button>
             </div>
           )}
         </header>

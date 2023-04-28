@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { closeDeleteModal, selectEditModal } from "../../redux/Features/modalSlice";
+import { closeDeleteModal, selectModalState } from "../../redux/Features/modalSlice";
 import { Modal } from "../Modal";
 import { useDeletePostMutation } from "../../redux/Features/postsSlice";
+import { CancelBtn } from "../CancelBtn";
 
 type postIdType = number | null
 
 export function DeleteModal() {
-  const { isDeleteOpen, postId } = useSelector(selectEditModal);
+  const { isDeleteOpen, postId } = useSelector(selectModalState);
   const dispatch = useDispatch()
 
   const [deletePost] = useDeletePostMutation();
@@ -35,9 +36,7 @@ export function DeleteModal() {
           Are you sure you want to delete this item?
         </p>
         <div className="ml-auto flex gap-4 font-bold max-[340px]:flex-col">
-          <button 
-            className="border border-gray-400 px-8 py-[6px] rounded-lg"
-            onClick={handleCloseDeleteModal}>Cancel</button>
+          <CancelBtn handleCancel={handleCloseDeleteModal} />
           <button 
             className="bg-red text-white px-8 py-[6px] rounded-lg"
             onClick={() => handleDeletePost(postId)}>Delete</button>

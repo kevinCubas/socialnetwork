@@ -3,11 +3,18 @@ import { useAddPostMutation } from "../../redux/Features/postsSlice";
 import { useSelector } from "react-redux";
 import { selectAuthUser } from "../../redux/Features/authUserSlice";
 
-export function FeedForm() {
+interface IPostForm {
+  formTitle?: string;
+  post?: IPost;
+  children?: React.ReactNode
+}
+
+export function PostForm({ formTitle, post, children }: IPostForm) {
+
   const { user } = useSelector(selectAuthUser);
-  const [ addNewPost ] = useAddPostMutation()
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [addNewPost] = useAddPostMutation()
+  const [title, setTitle] = useState(post?.title ?? "");
+  const [content, setContent] = useState(post?.content ?? "");
 
   const submitDisabled = !title || !content;
 
@@ -15,7 +22,7 @@ export function FeedForm() {
     e.preventDefault();
     try {
       if (submitDisabled) throw new Error("Fields are empty");
-      await addNewPost({username: user, title, content});
+      await addNewPost({ username: user, title, content });
     } catch (error) {
       console.log(error)
     } finally {
@@ -43,13 +50,19 @@ export function FeedForm() {
 
   return (
     <form onSubmit={handleSubmit}
-      className="flex flex-col gap-6 p-6 w-full border border-gray-400 rounded-2xl">
-      <header><h2 className="font-bold text-base">What’s on your mind?</h2></header>
+      className={`flex flex-col gap-6 
+        p-6 ${post && "min-[1300px]:mx-72 min-[1140px]:mx-60 min-[1000px]:mx-40"} w-full 
+        bg-white border border-gray-400 
+        rounded-2xl`}
+      >
+      <header>
+        <h2 className="font-bold text-base">
+          {formTitle ? formTitle : "What’s on your mind?"}
+        </h2>
+      </header>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="title">Title:</label>
+        <label className="flex flex-col gap-2">Title:
           <input
-            id="title"
             type="text"
             required
             aria-required="true"
@@ -60,12 +73,10 @@ export function FeedForm() {
             placeholder="Hello World"
             className="border border-gray-500 rounded-lg p-2"
           />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="content">Content:</label>
+        </label>
+        <label className="flex flex-col gap-2">Content:
           <textarea
             name="content textarea"
-            id="content"
             required
             aria-required="true"
             title="content input"
@@ -76,25 +87,27 @@ export function FeedForm() {
             className="p-2 resize-none border border-gray-500 rounded-lg"
           >
           </textarea>
+        </label>
+        <div className="flex gap-4 ml-auto mt-2">
+          {post && children}
+          <button
+            className={`${post ? "bg-green" : "bg-blue"} 
+                text-white text-base font-bold 
+                rounded-lg 
+                px-[1.875rem] py-[0.375rem] 
+                hover:brightness-90
+                hover:duration-200
+                ease-in-out
+                transition
+                disabled:opacity-50
+                disabled:cursor-not-allowed`}
+            type="submit"
+            disabled={submitDisabled}
+            title="Create"
+          >
+            {post ? "Save" : "Create"}
+          </button>
         </div>
-        <button
-          className="bg-blue 
-              text-white text-base font-bold 
-              rounded-lg 
-              px-[1.875rem] py-[0.375rem] 
-              ml-auto mt-2
-              hover:brightness-90
-              hover:duration-200
-              ease-in-out
-              transition
-              disabled:opacity-50
-              disabled:cursor-not-allowed"
-          type="submit"
-          disabled={submitDisabled}
-          title="Create"
-        >
-          Create
-        </button>
       </div>
     </form>
   )
