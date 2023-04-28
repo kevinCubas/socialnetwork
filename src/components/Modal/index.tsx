@@ -8,7 +8,7 @@ export function Modal({ children, isOpen, closeModal }: IModalProps) {
   if (!isOpen) return null;
 
   const handleCloseModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.currentTarget.id === "modal") closeModal();
+    if (e.currentTarget.id === "modal" && e.currentTarget === e.target) closeModal();
   }
 
   return (

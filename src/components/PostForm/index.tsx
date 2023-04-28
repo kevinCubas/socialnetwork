@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useAddPostMutation } from "../../redux/Features/postsSlice";
-import { useSelector } from "react-redux";
+import { useAddPostMutation, useEditPostMutation } from "../../redux/Features/postsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "../../redux/Features/authUserSlice";
+import { closeEditModal } from "../../redux/Features/modalSlice";
 
 interface IPostForm {
   formTitle?: string;
@@ -10,24 +11,39 @@ interface IPostForm {
 }
 
 export function PostForm({ formTitle, post, children }: IPostForm) {
-
-  const { user } = useSelector(selectAuthUser);
-  const [addNewPost] = useAddPostMutation()
   const [title, setTitle] = useState(post?.title ?? "");
   const [content, setContent] = useState(post?.content ?? "");
+
+  const { user } = useSelector(selectAuthUser);
+  const dispatch = useDispatch();
+
+  const [addNewPost] = useAddPostMutation();
+  const [editPost] = useEditPostMutation();
 
   const submitDisabled = !title || !content;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (!user) throw new Error("User not logged in");
       if (submitDisabled) throw new Error("Fields are empty");
+      if(post) {
+        await editPost({
+          id: post.id,
+          body: {
+            title,
+            content
+          }
+        })
+        return
+      }
       await addNewPost({ username: user, title, content });
     } catch (error) {
       console.log(error)
     } finally {
       setTitle("");
       setContent("");
+      dispatch(closeEditModal());
     }
   }
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -14,7 +14,7 @@ export function EditModal() {
   }
 
   return (
-    <Modal isOpen={isEditOpen} closeModal={() => console.log("fechou")}>
+    <Modal isOpen={isEditOpen} closeModal={handleCloseEditModal}>
       <PostForm post={post} formTitle="Edit item">
         <CancelBtn handleCancel={handleCloseEditModal} />
       </PostForm>

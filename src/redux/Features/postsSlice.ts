@@ -1,4 +1,11 @@
 import { postsApi } from "../api/apiSlice";
+type updatePostType = {
+  id: number;
+  body: {
+    title: string;
+    content: string;
+  }
+}
 // https://dev.codeleap.co.uk/careers/?limit=10&offset=10
 export const extendedPostsSlice = postsApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -23,6 +30,14 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
     }),
+    editPost: builder.mutation({
+      query: ({ id, body }: updatePostType) => ({
+        url: `careers/${id}/`,
+        method: "PATCH",
+        body
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: 'Posts', id: arg.id }],
+    }),
     deletePost: builder.mutation({
       query: (id) => ({
         url: `careers/${id}/`,
@@ -34,4 +49,7 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
   overrideExisting: false,
 })
 
-export const { useGetPostsQuery, useAddPostMutation, useDeletePostMutation } = extendedPostsSlice
+export const { useGetPostsQuery, 
+  useAddPostMutation, 
+  useDeletePostMutation,
+  useEditPostMutation } = extendedPostsSlice
