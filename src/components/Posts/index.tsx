@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useGetPostsQuery } from "../../redux/Features/postsSlice";
 import { Post } from "../Post";
+import { DeleteModal } from "../DeleteModal";
+import { createPortal } from "react-dom";
 
 export function Posts() {
   const [amount, setAmount] = useState(10);
@@ -48,6 +50,10 @@ export function Posts() {
         )}
       </ul>
       <div ref={referer}></div>
+      {createPortal(
+        <DeleteModal />,
+        document.body
+      )}
     </>
   )
 }

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authUserSlice from './Features/authUserSlice'
 import { postsApi } from './api/apiSlice'
+import modalSlice from './Features/modalSlice'
 
 export const store = configureStore({
   reducer: {
     [postsApi.reducerPath]: postsApi.reducer,
-    authUser: authUserSlice
+    authUser: authUserSlice,
+    modal: modalSlice
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(postsApi.middleware)
 })

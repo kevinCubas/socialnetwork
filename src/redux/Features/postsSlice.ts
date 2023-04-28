@@ -22,9 +22,16 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
         body: post,
       }),
       invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
+    }),
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `careers/${id}/`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
     })
   }),
   overrideExisting: false,
 })
 
-export const { useGetPostsQuery, useAddPostMutation } = extendedPostsSlice
+export const { useGetPostsQuery, useAddPostMutation, useDeletePostMutation } = extendedPostsSlice
