@@ -1,17 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
 import { Provider } from 'react-redux'
-import { store } from './redux/store.ts'
+import { persistor, store } from './redux/store.ts'
 import { extendedPostsSlice } from './redux/Features/postsSlice.ts'
+import { RouterProvider } from 'react-router-dom';
+import { router } from "./router/index.tsx";
+import { PersistGate } from 'redux-persist/integration/react'
 
 store.dispatch(extendedPostsSlice.endpoints.getPosts.initiate(10))
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate persistor={persistor} loading={null}>
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
 )

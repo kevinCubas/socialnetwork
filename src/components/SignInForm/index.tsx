@@ -9,8 +9,8 @@ export function SignInForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(login(username));
-      console.log(username);
+      if(!username) throw new Error("Username is required");
+      dispatch(login({username}));
     } catch (error) {
       console.log(error)
     } finally {

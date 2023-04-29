@@ -19,7 +19,6 @@ export function Post({ data }: IPostProps) {
 
   const handleOpenEditModal = (post: IPost) => {
     dispatch(openEditModal(post))
-    console.log("hello")
   }
   return (
     <>
