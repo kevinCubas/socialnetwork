@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/Features/authUserSlice";
+import { handleAddToast } from "../../util/handleAddToast";
 
 export function SignInForm() {
   const [username, setUsername] = useState("");
@@ -11,8 +12,10 @@ export function SignInForm() {
     try {
       if(!username) throw new Error("Username is required");
       dispatch(login({username}));
-    } catch (error) {
-      console.log(error)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        handleAddToast({ message: error.message, type: "error" });
+      }
     } finally {
       setUsername("");
     }

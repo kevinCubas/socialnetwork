@@ -3,6 +3,7 @@ import { useAddPostMutation, useEditPostMutation } from "../../redux/Features/po
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUser } from "../../redux/Features/authUserSlice";
 import { closeEditModal } from "../../redux/Features/modalSlice";
+import { handleAddToast } from "../../util/handleAddToast";
 
 interface IPostForm {
   formTitle?: string;
@@ -38,8 +39,10 @@ export function PostForm({ formTitle, post, children }: IPostForm) {
         return
       }
       await addNewPost({ username: user, title, content });
-    } catch (error) {
-      console.log(error)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        handleAddToast({message: error.message, type: "info"});
+      }
     } finally {
       setTitle("");
       setContent("");

@@ -1,3 +1,4 @@
+import { handleAddToast } from "../../util/handleAddToast";
 import { postsApi } from "../api/apiSlice";
 type updatePostType = {
   id: number;
@@ -6,6 +7,7 @@ type updatePostType = {
     content: string;
   }
 }
+
 // https://dev.codeleap.co.uk/careers/?limit=10&offset=10
 export const extendedPostsSlice = postsApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -29,6 +31,16 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
         body: post,
       }),
       invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          handleAddToast({ message: "Post Created", type: "success" });
+        } catch (error: unknown) {
+          if(error instanceof Error) {
+            handleAddToast({ message: error.message, type: "error" });
+          }
+        }
+      }
     }),
     editPost: builder.mutation({
       query: ({ id, body }: updatePostType) => ({
@@ -37,6 +49,16 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
         body
       }),
       invalidatesTags: (_result, _error, arg) => [{ type: 'Posts', id: arg.id }],
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          handleAddToast({ message: "Post Updated", type: "success" });
+        } catch (error: unknown) {
+          if(error instanceof Error) {
+            handleAddToast({ message: error.message, type: "error" });
+          }
+        }
+      }
     }),
     deletePost: builder.mutation({
       query: (id) => ({
@@ -44,6 +66,16 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          handleAddToast({ message: "Deleted post", type: "success" });
+        } catch (error: unknown) {
+          if(error instanceof Error) {
+            handleAddToast({ message: error.message, type: "error" });
+          }
+        }
+      }
     })
   }),
   overrideExisting: false,

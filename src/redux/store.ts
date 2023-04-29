@@ -1,7 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
+
 import authUserSlice from './Features/authUserSlice'
-import { postsApi } from './api/apiSlice'
 import modalSlice from './Features/modalSlice'
+import toastSlice from './Features/toastSlice';
+import { postsApi } from './api/apiSlice'
+
 import { persistReducer, persistStore,
   FLUSH,
   REHYDRATE,
@@ -19,7 +22,8 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   [postsApi.reducerPath]: postsApi.reducer,
   authUser: authUserSlice,
-  modal: modalSlice
+  modal: modalSlice,
+  toast: toastSlice
 }));
 
 

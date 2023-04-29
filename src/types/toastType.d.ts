@@ -1,0 +1,1 @@
+type IToastType = "success" | "error" | "info";

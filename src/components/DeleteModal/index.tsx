@@ -3,6 +3,7 @@ import { closeDeleteModal, selectModalState } from "../../redux/Features/modalSl
 import { Modal } from "../Modal";
 import { useDeletePostMutation } from "../../redux/Features/postsSlice";
 import { CancelBtn } from "../CancelBtn";
+import { handleAddToast } from "../../util/handleAddToast";
 
 type postIdType = number | null
 
@@ -14,10 +15,12 @@ export function DeleteModal() {
 
   const handleDeletePost = async (id: postIdType) => {
     try {
-      if(!postId) return;
+      if(!postId) throw new Error("No post match");
       if(postId === id) await deletePost(postId);
-    } catch (error) {
-      console.log(error)
+    } catch (error: unknown) {
+      if(error instanceof Error) (
+        handleAddToast({ message: error.message, type: "error" })
+      );
     } finally {
       dispatch(closeDeleteModal())
     }

@@ -16,6 +16,15 @@ export default {
       'blue': '#7695EC', // button login and post header
       'red': '#FF5151', // cancel button
       'green': '#47B960', // save button
+    },
+    keyframes: {
+      progress: {
+        '0%': { width: '0%' },
+        '100%': { width: '100%' },
+      }
+    },
+    animation: {
+      progress: 'progress 5s linear forwards',
     }
   },
   plugins: [],
