@@ -36,7 +36,7 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
         method: "PATCH",
         body
       }),
-      invalidatesTags: (result, error, arg) => [{ type: 'Posts', id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Posts', id: arg.id }],
     }),
     deletePost: builder.mutation({
       query: (id) => ({
