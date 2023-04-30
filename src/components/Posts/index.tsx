@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { useGetPostsQuery } from "../../redux/Features/postsSlice";
-import { Post } from "../Post";
-import { DeleteModal } from "../DeleteModal";
 import { createPortal } from "react-dom";
-import { EditModal } from "../EditModal";
-import { selectModalState } from "../../redux/Features/modalSlice";
 import { useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
+
+import { useGetPostsQuery } from "../../redux/Features/postsSlice";
+import { selectModalState } from "../../redux/Features/modalSlice";
+
+import { Post } from "../Post";
+import { EditModal } from "../EditModal";
+import { DeleteModal } from "../DeleteModal";
 
 export function Posts() {
   const [amount, setAmount] = useState(10);
@@ -21,6 +24,7 @@ export function Posts() {
   const referer = useRef<HTMLDivElement>(null);
   const observer = useRef<IntersectionObserver>();
 
+  // Infinite scroll
   useEffect(() => {
     if (referer.current) {
       observer.current = new IntersectionObserver((entries) => {
@@ -44,22 +48,29 @@ export function Posts() {
 
   return (
     <>
-      <ul className="flex flex-col w-full gap-6">
+      <section className="flex flex-col w-full gap-6">
+        <AnimatePresence>
         {posts.map((post: IPost) => {
           return (
-            <li key={post.id}>
-              <Post data={post} />
-            </li>
+              <motion.div 
+                key={post.id}
+                initial={{ opacity: 0}} 
+                animate={{ opacity: 1, transition: { ease: "easeIn", duration: 0.8 } }} 
+                exit={{ opacity: 0, x: -100, transition: { ease: "easeOut", duration: 0.5 } }}
+              >
+                <Post data={post} />
+              </motion.div>
           )
         }
         )}
-      </ul>
+        </AnimatePresence>
+      </section>
       <div ref={referer}></div>
-      { isDeleteOpen && createPortal(
+      {isDeleteOpen && createPortal(
         <DeleteModal />,
         document.body
       )}
-      { isEditOpen && createPortal(
+      {isEditOpen && createPortal(
         <EditModal />,
         document.body
       )}

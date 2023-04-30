@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuthUser } from "../../redux/Features/authUserSlice";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+
+import { selectAuthUser } from "../../redux/Features/authUserSlice";
 import { openDeleteModal, openEditModal } from "../../redux/Features/modalSlice";
+
 import { getTimeDifference } from "../../util/getTimeDifference";
 
 interface IPostProps {
-  data: IPost
+  data: IPost,
 }
 export function Post({ data }: IPostProps) {
   const { user } = useSelector(selectAuthUser)
@@ -21,7 +23,6 @@ export function Post({ data }: IPostProps) {
     dispatch(openEditModal(post))
   }
   return (
-    <>
       <article
         className="border border-gray-400 rounded-2xl min-w-full overflow-hidden h-fit">
         <header className="flex justify-between w-full p-6 bg-blue text-white font-bold text-xl">
@@ -55,6 +56,5 @@ export function Post({ data }: IPostProps) {
           </div>
         </div>
       </article>
-    </>
   )
 }
