@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { closeDeleteModal, selectModalState } from "../../redux/Features/modalSlice";
 import { useDeletePostMutation } from "../../redux/Features/postsSlice";
 
@@ -7,12 +7,12 @@ import { CancelBtn } from "../CancelBtn";
 import { ModalAnimate } from "../ModalAnimate";
 
 import { handleAddToast } from "../../util/handleAddToast";
+import { dispatchAction } from "../../util/dispatchAction";
 
 type postIdType = number | null
 
 export function DeleteModal() {
   const { isDeleteOpen, postId } = useSelector(selectModalState);
-  const dispatch = useDispatch()
 
   const [deletePost] = useDeletePostMutation();
 
@@ -25,12 +25,12 @@ export function DeleteModal() {
         handleAddToast({ message: error.message, type: "error" })
       );
     } finally {
-      dispatch(closeDeleteModal())
+      dispatchAction(closeDeleteModal())
     }
   }
 
   const handleCloseDeleteModal = () => {
-    dispatch(closeDeleteModal())
+    dispatchAction(closeDeleteModal())
   }
 
   return (

@@ -1,17 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Modal } from "../Modal";
 import { PostForm } from "../PostForm";
 import { closeEditModal, selectModalState } from "../../redux/Features/modalSlice";
 import { CancelBtn } from "../CancelBtn";
 import { ModalAnimate } from "../ModalAnimate";
+import { dispatchAction } from "../../util/dispatchAction";
 
 export function EditModal() {
   const { isEditOpen, post } = useSelector(selectModalState)
-  const dispatch = useDispatch()
   if (!post) return null
 
   const handleCloseEditModal = () => {
-    dispatch(closeEditModal())
+    dispatchAction(closeEditModal())
   }
 
   return (

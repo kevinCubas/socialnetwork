@@ -1,14 +1,13 @@
 import { FaSignOutAlt } from "react-icons/fa";
-import { useDispatch } from "react-redux";
 import { logout } from "../../redux/Features/authUserSlice";
 import { handleAddToast } from "../../util/handleAddToast";
+import { dispatchAction } from "../../util/dispatchAction";
 
 export function Header() {
-  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logout());
-    handleAddToast({ message: "To login again use the same username!", type: "info" });
+    dispatchAction(logout());
+    handleAddToast({ message: "Input the same username to login again!", type: "info" });
   }
 
   return (

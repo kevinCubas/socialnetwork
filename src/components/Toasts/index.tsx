@@ -1,15 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { removeToast, selectToasts } from "../../redux/Features/toastSlice";
 import { ToasIcon } from "./ToastIcon";
 import { ToastProgress } from "./ToastProgress";
+import { dispatchAction } from "../../util/dispatchAction";
 
 export function Toasts() {
   const { toasts } = useSelector(selectToasts);
-  const dispatch = useDispatch();
 
-  const handleRemove = (id: number) => dispatch(removeToast(id));
+  const handleRemove = (id: number) => dispatchAction(removeToast(id));
 
   return (
     <div className="fixed top-10 right-6 flex flex-col gap-4">

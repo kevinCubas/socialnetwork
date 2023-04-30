@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { login } from "../../redux/Features/authUserSlice";
 import { handleAddToast } from "../../util/handleAddToast";
+import { dispatchAction } from "../../util/dispatchAction";
 
 export function SignInForm() {
   const [username, setUsername] = useState("");
-  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if(!username) throw new Error("Username is required");
-      dispatch(login({username}));
+      dispatchAction(login({username}));
     } catch (error: unknown) {
       if (error instanceof Error) {
         handleAddToast({ message: error.message, type: "error" });

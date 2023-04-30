@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useAddPostMutation, useEditPostMutation } from "../../redux/Features/postsSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectAuthUser } from "../../redux/Features/authUserSlice";
 import { closeEditModal } from "../../redux/Features/modalSlice";
 import { handleAddToast } from "../../util/handleAddToast";
+import { dispatchAction } from "../../util/dispatchAction";
 
 interface IPostForm {
   formTitle?: string;
@@ -16,7 +17,6 @@ export function PostForm({ formTitle, post, children }: IPostForm) {
   const [content, setContent] = useState(post?.content ?? "");
 
   const { user } = useSelector(selectAuthUser);
-  const dispatch = useDispatch();
 
   const [addNewPost] = useAddPostMutation();
   const [editPost] = useEditPostMutation();
@@ -46,7 +46,7 @@ export function PostForm({ formTitle, post, children }: IPostForm) {
     } finally {
       setTitle("");
       setContent("");
-      dispatch(closeEditModal());
+      dispatchAction(closeEditModal());
     }
   }
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

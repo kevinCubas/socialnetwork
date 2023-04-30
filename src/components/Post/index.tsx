@@ -1,26 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 import { selectAuthUser } from "../../redux/Features/authUserSlice";
 import { openDeleteModal, openEditModal } from "../../redux/Features/modalSlice";
 
 import { getTimeDifference } from "../../util/getTimeDifference";
+import { dispatchAction } from "../../util/dispatchAction";
 
 interface IPostProps {
   data: IPost,
 }
 export function Post({ data }: IPostProps) {
   const { user } = useSelector(selectAuthUser)
-  const dispatch = useDispatch()
   const { title, content, username, created_datetime, id } = data
   const timeDifference = getTimeDifference(new Date(created_datetime))
 
   const handleOpenDeleteModal = (id: number) => {
-    dispatch(openDeleteModal(id))
+    dispatchAction(openDeleteModal(id))
   }
 
   const handleOpenEditModal = (post: IPost) => {
-    dispatch(openEditModal(post))
+    dispatchAction(openEditModal(post))
   }
   return (
       <article
