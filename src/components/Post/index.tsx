@@ -25,7 +25,7 @@ export function Post({ data }: IPostProps) {
   return (
       <article
         className="border border-gray-400 rounded-2xl min-w-full overflow-hidden h-fit">
-        <header className="flex justify-between w-full p-6 bg-blue text-white font-bold text-xl">
+        <header className="flex justify-between w-full p-6 bg-blue text-white font-bold text-xl break-all">
           <h3>{title}</h3>
           {user === username && (
             <div className="flex gap-7">
@@ -51,8 +51,10 @@ export function Post({ data }: IPostProps) {
             <p className="font-bold">@{username}</p>
             <span>{timeDifference}</span>
           </div>
-          <div className="">
-            <p>{content}</p>
+          <div>
+            <p className="break-words">
+              {content}
+            </p>
           </div>
         </div>
       </article>

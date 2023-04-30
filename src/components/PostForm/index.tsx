@@ -72,7 +72,8 @@ export function PostForm({ formTitle, post, children }: IPostForm) {
       className={`flex flex-col gap-6 
         p-6 ${post && "min-[1300px]:mx-72 min-[1140px]:mx-60 min-[1000px]:mx-40"} w-full 
         bg-white border border-gray-400 
-        rounded-2xl`}
+        rounded-2xl
+        `}
       >
       <header>
         <h2 className="font-bold text-base">

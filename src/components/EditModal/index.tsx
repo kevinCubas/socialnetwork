@@ -3,6 +3,7 @@ import { Modal } from "../Modal";
 import { PostForm } from "../PostForm";
 import { closeEditModal, selectModalState } from "../../redux/Features/modalSlice";
 import { CancelBtn } from "../CancelBtn";
+import { ModalAnimate } from "../ModalAnimate";
 
 export function EditModal() {
   const { isEditOpen, post } = useSelector(selectModalState)
@@ -15,9 +16,11 @@ export function EditModal() {
 
   return (
     <Modal isOpen={isEditOpen} closeModal={handleCloseEditModal}>
-      <PostForm post={post} formTitle="Edit item">
-        <CancelBtn handleCancel={handleCloseEditModal} />
-      </PostForm>
+      <ModalAnimate>
+        <PostForm post={post} formTitle="Edit item">
+          <CancelBtn handleCancel={handleCloseEditModal} />
+        </PostForm>
+      </ModalAnimate>
     </Modal>
   )
 }
