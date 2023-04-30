@@ -21,10 +21,28 @@ export default {
       progress: {
         '0%': { width: '0%' },
         '100%': { width: '100%' },
+      },
+      pulseLoadingBackground: {
+        '0%': { 
+          opacity: '0%',
+        },
+        '25%': {
+          opacity: '0.25',
+        },
+        '50%': {
+          opacity: '1',
+        },
+        '75%': {
+          opacity: '0.25',
+        },
+        '100%': {
+          opacity: '0',
+        }
       }
     },
     animation: {
       progress: 'progress 5s linear forwards',
+      pulseLoadingBackground: 'pulseLoadingBackground 2.5s linear infinite',
     }
   },
   plugins: [],

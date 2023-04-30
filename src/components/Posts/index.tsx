@@ -9,6 +9,7 @@ import { selectModalState } from "../../redux/Features/modalSlice";
 import { Post } from "../Post";
 import { EditModal } from "../EditModal";
 import { DeleteModal } from "../DeleteModal";
+import { PostLoading } from "../LoadingPost";
 
 export function Posts() {
   const [amount, setAmount] = useState(10);
@@ -40,7 +41,7 @@ export function Posts() {
   }, [hasMore])
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <PostLoading />;
   }
   if (error) {
     return <div>Something went wrong</div>;
