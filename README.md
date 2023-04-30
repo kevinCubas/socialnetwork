@@ -37,7 +37,7 @@ Here are the main dependencies used in the project:
 ### Clone the repository and Setup.
 
 ```cl
-  git clone url
+  git clone  https://github.com/kevinCubas/socialnetwork.git
 ```
 - Install dependencies using npm:
 ```cl
