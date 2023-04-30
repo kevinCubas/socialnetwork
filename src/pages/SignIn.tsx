@@ -9,6 +9,7 @@ import { useEffect } from "react";
 export default function SignIn() {
   const { isLoggedIn } = useSelector(selectAuthUser);
   
+  // remove toasts from store on the first render
   useEffect(() => {
     setTimeout(() => {
       removeAllToastsFromStore();

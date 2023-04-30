@@ -7,6 +7,7 @@ interface IModalProps {
 export function Modal({ children, isOpen, closeModal }: IModalProps) {
   if (!isOpen) return null;
 
+  // To close modal on click outside of modal
   const handleCloseModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget.id === "modal" && e.currentTarget === e.target) closeModal();
   }

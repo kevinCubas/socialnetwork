@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { removeAllToastsFromStore } from "../util/removeAllToast";
 
 export default function FeedPage() {
+  
+  // remove toasts from store on the first render
   useEffect(() => {
    removeAllToastsFromStore();
   }, []);
