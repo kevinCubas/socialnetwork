@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { useGetPostsQuery } from "../../redux/Features/postsSlice";
 import { selectModalState } from "../../redux/Features/modalSlice";
